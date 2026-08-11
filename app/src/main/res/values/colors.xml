@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="hylia_primary">#FF10B981</color>
+    <color name="hylia_primary_dark">#FF0E8A6E</color>
+    <color name="card_bg">#FFFFFFFF</color>
+    <color name="page_bg">#FFF1F5F9</color>
+    <color name="text_primary">#FF1F2937</color>
+    <color name="text_secondary">#FF6B7280</color>
+    <color name="warn">#FFEF4444</color>
+    <color name="ic_launcher_background">#FF0E8A6E</color>
+    <color name="overlay_bg">#FF112D2A</color>
+    <color name="overlay_card">#FFFFFFFF</color>
+</resources>

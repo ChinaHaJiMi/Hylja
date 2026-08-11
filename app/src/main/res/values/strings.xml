@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Hylia</string>
+    <string name="app_subtitle">内容守护 · 督学伙伴</string>
+
+    <string name="accessibility_service_label">Hylia 内容过滤服务</string>
+    <string name="accessibility_service_description">Hylia 通过无障碍服务识别屏幕上的营销带货、伪科学谣言、低俗烂梗、引战攻击与无聊爽文内容，并以提示卡片形式友好提醒。不会读取或上传你的个人信息。</string>
+
+    <string name="settings_title">设置</string>
+    <string name="back">返回</string>
+    <string name="service_status_enabled">过滤服务运行中</string>
+    <string name="service_status_disabled">过滤服务未开启</string>
+    <string name="service_status_hint">在系统无障碍设置中开启「Hylia 内容过滤服务」即可开始守护</string>
+    <string name="action_open_accessibility">去开启过滤服务</string>
+
+    <string name="today_blocked">今日拦截</string>
+    <string name="today_continued">今日放行</string>
+    <string name="points">积分</string>
+    <string name="streak">连击</string>
+
+    <string name="section_sensitivity">过滤敏感度</string>
+    <string name="sensitivity_hint">敏感度越高，拦截越严格</string>
+    <string name="sensitivity_relaxed">宽松</string>
+    <string name="sensitivity_standard">标准</string>
+    <string name="sensitivity_strict">严格</string>
+
+    <string name="section_reward">督学奖励</string>
+    <string name="reward_enabled">启用积分奖励</string>
+    <string name="reward_enabled_hint">拦截后选择「返回」可获得积分与连击，帮助养成自律习惯</string>
+
+    <string name="section_goal">每日目标</string>
+    <string name="goal_entertainment_limit">每日娱乐内容上限</string>
+    <string name="goal_minutes">%1$d 分钟</string>
+
+    <string name="section_stats">累计统计</string>
+    <string name="stat_points">累计积分</string>
+    <string name="stat_streak">当前连击</string>
+    <string name="stat_blocked">累计拦截</string>
+    <string name="stat_misjudge">误判反馈</string>
+
+    <string name="section_about">关于</string>
+    <string name="about_text">Hylia 用于过滤六大类不良内容：营销带货、伪科学谣言、低俗烂梗、引战攻击、无聊爽文。所有判定默认在本地完成，尊重你的每一次选择。</string>
+
+    <string name="intervention_title">Hylia 内容提示</string>
+    <string name="intervention_category">类别</string>
+    <string name="intervention_confidence">置信度</string>
+    <string name="intervention_reasons">依据</string>
+    <string name="intervention_sample">内容预览</string>
+    <string name="action_return">返回</string>
+    <string name="action_continue">继续访问</string>
+    <string name="action_misjudge">误判</string>
+
+    <string name="notification_channel_name">Hylia 守护状态</string>
+    <string name="notification_channel_desc">显示 Hylia 过滤服务的运行状态</string>
+    <string name="notification_title">Hylia 正在守护</string>
+    <string name="notification_text">已拦截 %1$d 条、放行 %2$d 条，今日积分 %3$d</string>
+
+    <string name="severity_strong">高风险</string>
+    <string name="severity_light">提示</string>
+</resources>
