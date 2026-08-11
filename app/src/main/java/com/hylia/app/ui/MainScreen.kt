@@ -143,17 +143,33 @@ private fun StatusCard(
 @Composable
 private fun StatsGrid(snapshot: ProfileSnapshot) {
     Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-        StatCell(stringResource(R.string.today_blocked), snapshot.todayBlocked.toString())
-        StatCell(stringResource(R.string.today_continued), snapshot.todayContinued.toString())
-        StatCell(stringResource(R.string.points), snapshot.points.toString())
-        StatCell(stringResource(R.string.streak), "${snapshot.streak}🔥")
+        StatCell(
+            modifier = Modifier.weight(1f),
+            label = stringResource(R.string.today_blocked),
+            value = snapshot.todayBlocked.toString()
+        )
+        StatCell(
+            modifier = Modifier.weight(1f),
+            label = stringResource(R.string.today_continued),
+            value = snapshot.todayContinued.toString()
+        )
+        StatCell(
+            modifier = Modifier.weight(1f),
+            label = stringResource(R.string.points),
+            value = snapshot.points.toString()
+        )
+        StatCell(
+            modifier = Modifier.weight(1f),
+            label = stringResource(R.string.streak),
+            value = "${snapshot.streak}🔥"
+        )
     }
 }
 
 @Composable
-private fun StatCell(label: String, value: String) {
+private fun StatCell(modifier: Modifier = Modifier, label: String, value: String) {
     Card(
-        modifier = Modifier.weight(1f),
+        modifier = modifier,
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
     ) {
         Column(
@@ -195,8 +211,8 @@ private fun shieldIcon(): ImageVector {
             moveTo(12f, 2f)
             lineTo(20f, 5f)
             lineTo(20f, 11f)
-            cubicTo(20f, 16f, 16.5f, 20.5f, 12f, 22f)
-            cubicTo(7.5f, 20.5f, 4f, 16f, 4f, 11f)
+            curveTo(20f, 16f, 16.5f, 20.5f, 12f, 22f)
+            curveTo(7.5f, 20.5f, 4f, 16f, 4f, 11f)
             lineTo(4f, 5f)
             close()
         }

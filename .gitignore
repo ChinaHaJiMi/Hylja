@@ -4,3 +4,11 @@ __pycache__/
 venv/
 node_modules/
 .DS_Store
+
+# Android / Gradle build outputs & machine-local config
+local.properties
+.gradle/
+build/
+app/build/
+*.apk
+*.aab

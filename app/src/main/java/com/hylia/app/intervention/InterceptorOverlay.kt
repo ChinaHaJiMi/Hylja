@@ -72,7 +72,8 @@ object InterceptorOverlay {
             setPadding(dp(10), dp(3), dp(10), dp(3))
             background = GradientDrawable().apply {
                 cornerRadius = dp(12).toFloat()
-                setColor(ContextCompat.getColor(context, R.color.warn).withAlpha(0x1A))
+                setColor(androidx.core.graphics.ColorUtils.setAlphaComponent(
+                    ContextCompat.getColor(context, R.color.warn), 0x1A))
             }
         })
         card.addView(titleRow)

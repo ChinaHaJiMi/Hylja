@@ -13,6 +13,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -33,6 +34,7 @@ import com.hylia.app.HyliaApp
 import com.hylia.app.core.Sensitivity
 import com.hylia.app.profile.ProfileSnapshot
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsScreen(
     snapshot: ProfileSnapshot,
@@ -209,10 +211,4 @@ private fun Sensitivity.nameRes(): Int = when (this) {
     Sensitivity.RELAXED -> R.string.sensitivity_relaxed
     Sensitivity.STANDARD -> R.string.sensitivity_standard
     Sensitivity.STRICT -> R.string.sensitivity_strict
-}
-
-@Composable
-fun rememberSettingsState(): ProfileSnapshot {
-    val state by HyliaApp.instance.profileStore.state
-    return state
 }

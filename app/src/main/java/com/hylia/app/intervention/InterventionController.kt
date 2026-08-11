@@ -18,7 +18,8 @@ class InterventionController(
     private var overlay: View? = null
 
     fun show(result: ClassificationResult, sampleText: String, packageName: String, textHash: String) {
-        if (overlay != null || windowManager == null) return
+        if (overlay != null) return
+        val wm = windowManager ?: return
 
         val view = InterceptorOverlay.create(context, result, sampleText) { action ->
             when (action) {
@@ -43,7 +44,7 @@ class InterventionController(
         }
 
         try {
-            windowManager.addView(view, lp)
+            wm.addView(view, lp)
             overlay = view
         } catch (_: WindowManager.BadTokenException) {
             overlay = null
@@ -61,3 +62,4 @@ class InterventionController(
         }
         overlay = null
     }
+}

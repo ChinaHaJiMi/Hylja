@@ -160,3 +160,4 @@ class HyliaAccessibilityService : AccessibilityService(), InterventionListener {
         const val MAX_RECENT = 200
         const val MISJUDGE_MARK = "__misjudged__"
     }
+}
