@@ -22,6 +22,7 @@ class SettingsActivity : ComponentActivity() {
                     onChangeSensitivity = { app.profileStore.sensitivity = it },
                     onChangeReward = { app.profileStore.rewardEnabled = it },
                     onChangeGoal = { app.profileStore.dailyEntertainmentLimitMin = it },
+                    onChangeApiConfig = { app.profileStore.apiConfig = it },
                     onBack = { finish() }
                 )
             }

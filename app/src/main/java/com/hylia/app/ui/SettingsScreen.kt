@@ -10,12 +10,14 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Switch
@@ -23,15 +25,20 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.hylia.app.R
-import com.hylia.app.HyliaApp
 import com.hylia.app.core.Sensitivity
+import com.hylia.app.ml.ApiConfig
 import com.hylia.app.profile.ProfileSnapshot
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -41,6 +48,7 @@ fun SettingsScreen(
     onChangeSensitivity: (Sensitivity) -> Unit,
     onChangeReward: (Boolean) -> Unit,
     onChangeGoal: (Int) -> Unit,
+    onChangeApiConfig: (ApiConfig) -> Unit,
     onBack: () -> Unit
 ) {
     Scaffold(
@@ -110,6 +118,13 @@ fun SettingsScreen(
                     )
                 }
             }
+
+            Spacer(Modifier.height(24.dp))
+            SectionTitle(stringResource(R.string.section_api))
+            ApiConfigSection(
+                apiConfig = snapshot.apiConfig,
+                onConfigChange = onChangeApiConfig
+            )
 
             Spacer(Modifier.height(24.dp))
             SectionTitle(stringResource(R.string.section_stats))
@@ -211,4 +226,87 @@ private fun Sensitivity.nameRes(): Int = when (this) {
     Sensitivity.RELAXED -> R.string.sensitivity_relaxed
     Sensitivity.STANDARD -> R.string.sensitivity_standard
     Sensitivity.STRICT -> R.string.sensitivity_strict
+}
+
+@Composable
+private fun ApiConfigSection(
+    apiConfig: ApiConfig,
+    onConfigChange: (ApiConfig) -> Unit
+) {
+    var endpoint by remember { mutableStateOf(apiConfig.endpoint) }
+    var apiKey by remember { mutableStateOf(apiConfig.apiKey) }
+    var model by remember { mutableStateOf(apiConfig.model) }
+    var visionModel by remember { mutableStateOf(apiConfig.visionModel) }
+
+    Card(colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)) {
+        Column(Modifier.padding(16.dp)) {
+            SwitchRow(
+                title = stringResource(R.string.api_enabled),
+                hint = stringResource(R.string.api_enabled_hint),
+                checked = apiConfig.enabled,
+                onChange = { onConfigChange(apiConfig.copy(enabled = it)) }
+            )
+
+            if (apiConfig.enabled) {
+                Spacer(Modifier.height(12.dp))
+                OutlinedTextField(
+                    value = endpoint,
+                    onValueChange = {
+                        endpoint = it
+                        onConfigChange(apiConfig.copy(endpoint = it))
+                    },
+                    label = { Text(stringResource(R.string.api_endpoint)) },
+                    modifier = Modifier.fillMaxWidth(),
+                    singleLine = true
+                )
+
+                Spacer(Modifier.height(8.dp))
+                OutlinedTextField(
+                    value = apiKey,
+                    onValueChange = {
+                        apiKey = it
+                        onConfigChange(apiConfig.copy(apiKey = it))
+                    },
+                    label = { Text(stringResource(R.string.api_key)) },
+                    modifier = Modifier.fillMaxWidth(),
+                    singleLine = true,
+                    visualTransformation = PasswordVisualTransformation()
+                )
+
+                Spacer(Modifier.height(8.dp))
+                OutlinedTextField(
+                    value = model,
+                    onValueChange = {
+                        model = it
+                        onConfigChange(apiConfig.copy(model = it))
+                    },
+                    label = { Text(stringResource(R.string.api_model)) },
+                    modifier = Modifier.fillMaxWidth(),
+                    singleLine = true
+                )
+
+                Spacer(Modifier.height(12.dp))
+                SwitchRow(
+                    title = stringResource(R.string.api_vision_enabled),
+                    hint = stringResource(R.string.api_vision_hint),
+                    checked = apiConfig.visionEnabled,
+                    onChange = { onConfigChange(apiConfig.copy(visionEnabled = it)) }
+                )
+
+                if (apiConfig.visionEnabled) {
+                    Spacer(Modifier.height(8.dp))
+                    OutlinedTextField(
+                        value = visionModel,
+                        onValueChange = {
+                            visionModel = it
+                            onConfigChange(apiConfig.copy(visionModel = it))
+                        },
+                        label = { Text(stringResource(R.string.api_vision_model)) },
+                        modifier = Modifier.fillMaxWidth(),
+                        singleLine = true
+                    )
+                }
+            }
+        }
+    }
 }

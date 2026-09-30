@@ -2,6 +2,7 @@ package com.hylia.app.profile
 
 import android.content.Context
 import com.hylia.app.core.Sensitivity
+import com.hylia.app.ml.ApiConfig
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -19,7 +20,8 @@ data class ProfileSnapshot(
     val streakBonusClaimedToday: Boolean = false,
     val allTimeBlocked: Int = 0,
     val allTimeContinued: Int = 0,
-    val allTimeMisjudged: Int = 0
+    val allTimeMisjudged: Int = 0,
+    val apiConfig: ApiConfig = ApiConfig()
 )
 
 /** 基于 SharedPreferences 的持久化档案 + 响应式状态。 */
@@ -42,7 +44,16 @@ class ProfileStore(context: Context) {
         streakBonusClaimedToday = prefs.getBoolean(KEY_BONUS_CLAIMED, false),
         allTimeBlocked = prefs.getInt(KEY_ALL_BLOCKED, 0),
         allTimeContinued = prefs.getInt(KEY_ALL_CONTINUED, 0),
-        allTimeMisjudged = prefs.getInt(KEY_ALL_MISJUDGE, 0)
+        allTimeMisjudged = prefs.getInt(KEY_ALL_MISJUDGE, 0),
+        apiConfig = ApiConfig(
+            endpoint = prefs.getString(KEY_API_ENDPOINT, ApiConfig.DEFAULT_ENDPOINT) ?: ApiConfig.DEFAULT_ENDPOINT,
+            apiKey = prefs.getString(KEY_API_KEY, "") ?: "",
+            model = prefs.getString(KEY_API_MODEL, ApiConfig.DEFAULT_MODEL) ?: ApiConfig.DEFAULT_MODEL,
+            enabled = prefs.getBoolean(KEY_API_ENABLED, false),
+            timeoutSeconds = prefs.getLong(KEY_API_TIMEOUT, 30),
+            visionEnabled = prefs.getBoolean(KEY_API_VISION_ENABLED, true),
+            visionModel = prefs.getString(KEY_API_VISION_MODEL, ApiConfig.DEFAULT_VISION_MODEL) ?: ApiConfig.DEFAULT_VISION_MODEL
+        )
     )
 
     private fun emit(next: ProfileSnapshot) {
@@ -60,6 +71,13 @@ class ProfileStore(context: Context) {
             putInt(KEY_ALL_CONTINUED, next.allTimeContinued)
             putInt(KEY_ALL_MISJUDGE, next.allTimeMisjudged)
             putString(KEY_TODAY_DATE, today())
+            putString(KEY_API_ENDPOINT, next.apiConfig.endpoint)
+            putString(KEY_API_KEY, next.apiConfig.apiKey)
+            putString(KEY_API_MODEL, next.apiConfig.model)
+            putBoolean(KEY_API_ENABLED, next.apiConfig.enabled)
+            putLong(KEY_API_TIMEOUT, next.apiConfig.timeoutSeconds)
+            putBoolean(KEY_API_VISION_ENABLED, next.apiConfig.visionEnabled)
+            putString(KEY_API_VISION_MODEL, next.apiConfig.visionModel)
         }.apply()
         _state.value = next
     }
@@ -77,6 +95,10 @@ class ProfileStore(context: Context) {
     var dailyEntertainmentLimitMin: Int
         get() = _state.value.dailyEntertainmentLimitMin
         set(value) = emit(_state.value.copy(dailyEntertainmentLimitMin = value.coerceIn(0, 180)))
+
+    var apiConfig: ApiConfig
+        get() = _state.value.apiConfig
+        set(value) = emit(_state.value.copy(apiConfig = value))
 
     // ---- 跨天滚动 ----
 
@@ -159,6 +181,13 @@ class ProfileStore(context: Context) {
         const val KEY_ALL_BLOCKED = "$PREFIX.all_blocked"
         const val KEY_ALL_CONTINUED = "$PREFIX.all_continued"
         const val KEY_ALL_MISJUDGE = "$PREFIX.all_misjudge"
+        const val KEY_API_ENDPOINT = "$PREFIX.api_endpoint"
+        const val KEY_API_KEY = "$PREFIX.api_key"
+        const val KEY_API_MODEL = "$PREFIX.api_model"
+        const val KEY_API_ENABLED = "$PREFIX.api_enabled"
+        const val KEY_API_TIMEOUT = "$PREFIX.api_timeout"
+        const val KEY_API_VISION_ENABLED = "$PREFIX.api_vision_enabled"
+        const val KEY_API_VISION_MODEL = "$PREFIX.api_vision_model"
 
         fun today(): String = LocalDate.now().toString()
         fun yesterday(): String = LocalDate.now().minusDays(1).toString()
